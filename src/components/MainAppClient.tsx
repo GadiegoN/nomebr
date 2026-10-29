@@ -17,6 +17,7 @@ import { DataSourceSection } from "@/components/landing/DataSourceSection";
 import { FAQSection } from "@/components/landing/FAQSection";
 import { CallToAction } from "@/components/landing/CallToAction";
 import { Footer } from "@/components/footer/Footer";
+import { AdBanner } from "@/components/ads/AdBanner";
 
 import { fetchNameData } from "@/services/ibgeApi";
 import { ProcessedNameData } from "@/types/ibge";
@@ -123,6 +124,9 @@ export function MainAppClient({
 
         {/* Área de Resultados ou Estados de Busca */}
         <div ref={resultsRef} className="container-landing py-8">
+          {/* Banner Publicitário Superior (Leaderboard) */}
+          <AdBanner slot="leaderboard" />
+
           <SearchStatus
             status={searchStatus}
             searchName={currentName}
@@ -144,6 +148,9 @@ export function MainAppClient({
 
               {/* Gráfico de Evolução Histórica */}
               <DecadeDistributionChart data={resultData} />
+
+              {/* Anúncio Patrocinado no Fluxo de Resultados */}
+              <AdBanner slot="in-content" />
 
               {/* Distribuição por Estados */}
               <GeographicDistribution data={resultData} />
@@ -186,6 +193,9 @@ export function MainAppClient({
       </main>
 
       <Footer />
+
+      {/* Banner Fixo no Rodapé (Anchor Ad) */}
+      <AdBanner slot="anchor-footer" />
     </div>
   );
 }

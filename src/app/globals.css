@@ -1,26 +1,600 @@
 @import "tailwindcss";
+@import "leaflet/dist/leaflet.css";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Tema Padrão: Web 2015 */
+  --theme-bg: #f8fafc;
+  --theme-text: #0f172a;
+  --theme-text-muted: #475569;
+  --theme-surface-card: #ffffff;
+  --theme-surface-border: #e2e8f0;
+  --theme-surface-subtle: #f1f5f9;
+  --theme-hero-start: #0f2744;
+  --theme-hero-end: #16375c;
+  --theme-hero-accent: #f59e0b;
+  --theme-primary: #2563eb;
+  --theme-primary-hover: #1d4ed8;
+  --theme-primary-border: #1e40af;
+  --theme-primary-text: #ffffff;
+  --theme-header-bg: #091728;
+  --theme-header-border: #1e293b;
+  --theme-footer-bg: #020617;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* 1. Anos 80 (Synthwave / Neon Arcade) */
+[data-theme="synthwave-80s"] {
+  --theme-bg: #0f071e;
+  --theme-text: #fdf2f8;
+  --theme-text-muted: #d8b4fe;
+  --theme-surface-card: #1c0e35;
+  --theme-surface-border: #4a197e;
+  --theme-surface-subtle: #29124a;
+  --theme-hero-start: #1c0b36;
+  --theme-hero-end: #3b0764;
+  --theme-hero-accent: #06b6d4;
+  --theme-primary: #ec4899;
+  --theme-primary-hover: #db2777;
+  --theme-primary-border: #be185d;
+  --theme-primary-text: #ffffff;
+  --theme-header-bg: #0d041a;
+  --theme-header-border: #3b0764;
+  --theme-footer-bg: #080210;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* 2. Anos 90 (Teal & Y2K Prep) */
+[data-theme="grunge-90s"] {
+  --theme-bg: #f0fdfa;
+  --theme-text: #042f2e;
+  --theme-text-muted: #115e59;
+  --theme-surface-card: #ffffff;
+  --theme-surface-border: #99f6e4;
+  --theme-surface-subtle: #ccfbf1;
+  --theme-hero-start: #044e45;
+  --theme-hero-end: #0f766e;
+  --theme-hero-accent: #facc15;
+  --theme-primary: #0d9488;
+  --theme-primary-hover: #0f766e;
+  --theme-primary-border: #115e59;
+  --theme-primary-text: #ffffff;
+  --theme-header-bg: #042f2e;
+  --theme-header-border: #115e59;
+  --theme-footer-bg: #021a19;
+}
+
+/* 3. Anos 2000 (Frutiger Aero / Aqua Y2K) */
+[data-theme="y2k-2000s"] {
+  --theme-bg: #f0f9ff;
+  --theme-text: #082f49;
+  --theme-text-muted: #0369a1;
+  --theme-surface-card: #ffffff;
+  --theme-surface-border: #bae6fd;
+  --theme-surface-subtle: #e0f2fe;
+  --theme-hero-start: #0284c7;
+  --theme-hero-end: #0369a1;
+  --theme-hero-accent: #4ade80;
+  --theme-primary: #0284c7;
+  --theme-primary-hover: #0369a1;
+  --theme-primary-border: #075985;
+  --theme-primary-text: #ffffff;
+  --theme-header-bg: #075985;
+  --theme-header-border: #0284c7;
+  --theme-footer-bg: #032b43;
+}
+
+/* 4. Modo Noturno (Dark) */
+[data-theme="dark-mode"] {
+  --theme-bg: #090d16;
+  --theme-text: #f8fafc;
+  --theme-text-muted: #94a3b8;
+  --theme-surface-card: #131b2e;
+  --theme-surface-border: #243048;
+  --theme-surface-subtle: #0f172a;
+  --theme-hero-start: #0d1527;
+  --theme-hero-end: #172554;
+  --theme-hero-accent: #38bdf8;
+  --theme-primary: #3b82f6;
+  --theme-primary-hover: #2563eb;
+  --theme-primary-border: #1d4ed8;
+  --theme-primary-text: #ffffff;
+  --theme-header-bg: #050811;
+  --theme-header-border: #1e293b;
+  --theme-footer-bg: #03050a;
+}
+
+/* 5. Brasilidade Oficial */
+[data-theme="brasilidade"] {
+  --theme-bg: #f6fbf7;
+  --theme-text: #064e3b;
+  --theme-text-muted: #047857;
+  --theme-surface-card: #ffffff;
+  --theme-surface-border: #a7f3d0;
+  --theme-surface-subtle: #ecfdf5;
+  --theme-hero-start: #064e3b;
+  --theme-hero-end: #065f46;
+  --theme-hero-accent: #eab308;
+  --theme-primary: #059669;
+  --theme-primary-hover: #047857;
+  --theme-primary-border: #064e3b;
+  --theme-primary-text: #ffffff;
+  --theme-header-bg: #022c22;
+  --theme-header-border: #065f46;
+  --theme-footer-bg: #011c15;
+}
+
+/* 6. Arquivo Histórico (Sépia / Pergaminho) */
+[data-theme="pergaminho-vintage"] {
+  --theme-bg: #fcf9f2;
+  --theme-text: #2d1810;
+  --theme-text-muted: #6b4c3e;
+  --theme-surface-card: #fffdf9;
+  --theme-surface-border: #e8ded2;
+  --theme-surface-subtle: #f4ecdf;
+  --theme-hero-start: #3b2219;
+  --theme-hero-end: #4e2f23;
+  --theme-hero-accent: #d97706;
+  --theme-primary: #854d0e;
+  --theme-primary-hover: #713f12;
+  --theme-primary-border: #56300a;
+  --theme-primary-text: #ffffff;
+  --theme-header-bg: #29160e;
+  --theme-header-border: #4e2f23;
+  --theme-footer-bg: #1c0e09;
+}
+
+/* 7. Cyberpunk 2077 */
+[data-theme="cyberpunk"] {
+  --theme-bg: #050507;
+  --theme-text: #fef08a;
+  --theme-text-muted: #fef9c3;
+  --theme-surface-card: #121216;
+  --theme-surface-border: #3f3f46;
+  --theme-surface-subtle: #1e1e24;
+  --theme-hero-start: #000000;
+  --theme-hero-end: #141418;
+  --theme-hero-accent: #facc15;
+  --theme-primary: #eab308;
+  --theme-primary-hover: #ca8a04;
+  --theme-primary-border: #a16207;
+  --theme-primary-text: #09090b;
+  --theme-header-bg: #000000;
+  --theme-header-border: #eab308;
+  --theme-footer-bg: #000000;
+}
+
+/* 8. Pastel Nórdico */
+[data-theme="pastel-nordico"] {
+  --theme-bg: #fafafa;
+  --theme-text: #18181b;
+  --theme-text-muted: #52525b;
+  --theme-surface-card: #ffffff;
+  --theme-surface-border: #e4e4e7;
+  --theme-surface-subtle: #f4f4f5;
+  --theme-hero-start: #3730a3;
+  --theme-hero-end: #4338ca;
+  --theme-hero-accent: #34d399;
+  --theme-primary: #4f46e5;
+  --theme-primary-hover: #4338ca;
+  --theme-primary-border: #3730a3;
+  --theme-primary-text: #ffffff;
+  --theme-header-bg: #1e1b4b;
+  --theme-header-border: #3730a3;
+  --theme-footer-bg: #0f0d28;
+}
+
+/* 9. Espresso & Caramelo */
+[data-theme="espresso-cafe"] {
+  --theme-bg: #faf6f0;
+  --theme-text: #271710;
+  --theme-text-muted: #78350f;
+  --theme-surface-card: #ffffff;
+  --theme-surface-border: #e6dac8;
+  --theme-surface-subtle: #f2e9dc;
+  --theme-hero-start: #2e1710;
+  --theme-hero-end: #45241b;
+  --theme-hero-accent: #f59e0b;
+  --theme-primary: #92400e;
+  --theme-primary-hover: #78350f;
+  --theme-primary-border: #5a270a;
+  --theme-primary-text: #ffffff;
+  --theme-header-bg: #1f0f0a;
+  --theme-header-border: #45241b;
+  --theme-footer-bg: #140a07;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.25s ease, color 0.25s ease;
+}
+
+/* Contêineres clássicos */
+.container-landing {
+  max-width: 1140px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.card-2015 {
+  background-color: var(--theme-surface-card);
+  color: var(--theme-text);
+  border: 1px solid var(--theme-surface-border);
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.08), 0 1px 2px rgba(15, 23, 42, 0.04);
+  transition: background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.btn-2015-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.05rem;
+  background-color: var(--theme-primary);
+  color: var(--theme-primary-text);
+  border: 1px solid var(--theme-primary-border);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-2015-primary:hover {
+  background-color: var(--theme-primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+}
+
+.btn-2015-primary:active {
+  transform: translateY(0);
+}
+
+.btn-2015-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.05rem;
+  background-color: var(--theme-surface-card);
+  color: var(--theme-text);
+  border: 1px solid var(--theme-surface-border);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-2015-secondary:hover {
+  background-color: var(--theme-surface-subtle);
+  color: var(--theme-text);
+}
+
+.btn-2015-success {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  border-radius: 4px;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.05rem;
+  background-color: #059669;
+  color: #ffffff;
+  border: 1px solid #047857;
+  box-shadow: 0 2px 4px rgba(5, 150, 105, 0.25);
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-2015-success:hover {
+  background-color: #047857;
+  border-color: #065f46;
+}
+
+/* Jumbotron Dinâmico do Hero */
+.hero-jumbotron {
+  background: linear-gradient(180deg, var(--theme-hero-start) 0%, var(--theme-hero-end) 100%);
+  color: #ffffff;
+  border-bottom: 3px solid var(--theme-hero-accent);
+  transition: background 0.3s ease;
+}
+
+.hero-jumbotron p,
+.hero-jumbotron .text-slate-200 {
+  color: #e2e8f0 !important;
+}
+
+.hero-jumbotron .text-slate-300 {
+  color: #cbd5e1 !important;
+}
+
+/* Foco acessível */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible {
+  outline: 3px solid var(--theme-primary);
+  outline-offset: 2px;
+}
+
+/* ========================================================== */
+/* INVERSÃO INTELIGENTE DE CONTRASTE PARA TEMAS ESCUROS */
+/* ========================================================== */
+[data-theme="dark-mode"],
+[data-theme="synthwave-80s"],
+[data-theme="cyberpunk"] {
+  color-scheme: dark;
+
+  /* Textos principais que eram escuros viram claros */
+  .text-slate-900,
+  .text-slate-800,
+  .text-slate-700,
+  .text-blue-950,
+  .text-emerald-950,
+  .text-red-950 {
+    color: var(--theme-text) !important;
+  }
+
+  /* Textos secundários e de apoio */
+  .text-slate-600,
+  .text-slate-500,
+  .text-slate-400 {
+    color: var(--theme-text-muted) !important;
+  }
+
+  /* Textos claros sobre fundos escuros permanecem nítidos e claros */
+  .text-slate-100,
+  .text-slate-200,
+  .text-slate-300 {
+    color: #e2e8f0 !important;
+  }
+
+  /* Cartões e caixas brancas viram a superfície escura do tema */
+  .bg-white {
+    background-color: var(--theme-surface-card) !important;
+    color: var(--theme-text) !important;
+  }
+
+  /* Sub-blocos, estatísticas e fundos suaves */
+  .bg-slate-50,
+  .bg-slate-100,
+  .bg-slate-200 {
+    background-color: var(--theme-surface-subtle) !important;
+    color: var(--theme-text) !important;
+  }
+
+  .bg-blue-50,
+  .bg-blue-50\/70,
+  .bg-blue-50\/50,
+  .bg-blue-50\/60,
+  .bg-emerald-50,
+  .bg-amber-50,
+  .bg-amber-50\/40,
+  .bg-red-50\/30 {
+    background-color: var(--theme-surface-subtle) !important;
+    color: var(--theme-text) !important;
+    border-color: var(--theme-surface-border) !important;
+  }
+
+  /* Textos com tons azuis/verdes que ficavam ilegíveis em fundo escuro */
+  .text-blue-900,
+  .text-blue-800,
+  .text-emerald-900,
+  .text-emerald-800,
+  .text-amber-900,
+  .text-amber-800,
+  .text-red-800 {
+    color: var(--theme-text) !important;
+  }
+
+  /* Bordas escuras nos temas escuros */
+  .border-slate-100,
+  .border-slate-200,
+  .border-slate-300,
+  .border-slate-200\/80,
+  .border-blue-200,
+  .border-blue-300,
+  .border-emerald-200,
+  .border-amber-200,
+  .border-red-200 {
+    border-color: var(--theme-surface-border) !important;
+  }
+
+  /* Tabelas */
+  table thead,
+  table th {
+    background-color: var(--theme-surface-subtle) !important;
+    color: var(--theme-text) !important;
+    border-color: var(--theme-surface-border) !important;
+  }
+
+  table tbody,
+  table td {
+    color: var(--theme-text) !important;
+    border-color: var(--theme-surface-border) !important;
+  }
+
+  table tbody tr:hover {
+    background-color: var(--theme-surface-subtle) !important;
+  }
+
+  /* Inputs de formulário e buscas */
+  input[type="text"],
+  input {
+    background-color: var(--theme-surface-card) !important;
+    color: var(--theme-text) !important;
+    border-color: var(--theme-surface-border) !important;
+  }
+
+  input::placeholder {
+    color: var(--theme-text-muted) !important;
+  }
+
+  /* Destaques numéricos */
+  .text-blue-700 {
+    color: var(--theme-primary) !important;
+  }
+
+  .text-emerald-700 {
+    color: #34d399 !important;
+  }
+
+  /* ========================================================== */
+  /* BADGES COM CONTRASTE PROFISSIONAL NOS TEMAS ESCUROS       */
+  /* ========================================================== */
+  /* 1. Roxo / Púrpura (Ultra Raro) */
+  .bg-purple-100 {
+    background-color: rgba(147, 51, 234, 0.25) !important;
+    border-color: rgba(168, 85, 247, 0.5) !important;
+  }
+  .text-purple-900,
+  .text-purple-800 {
+    color: #e9d5ff !important; /* Roxo claro legível */
+  }
+
+  /* 2. Índigo (Raro) */
+  .bg-indigo-100 {
+    background-color: rgba(99, 102, 241, 0.25) !important;
+    border-color: rgba(129, 140, 248, 0.5) !important;
+  }
+  .text-indigo-900,
+  .text-indigo-800 {
+    color: #c7d2fe !important; /* Índigo claro legível */
+  }
+
+  /* 3. Azul (Incomum / IBGE Oficial / Tags) */
+  .bg-blue-100 {
+    background-color: rgba(59, 130, 246, 0.25) !important;
+    border-color: rgba(96, 165, 250, 0.5) !important;
+  }
+  .text-blue-900,
+  .text-blue-800,
+  .text-blue-700 {
+    color: #93c5fd !important; /* Azul claro legível */
+  }
+
+  /* 4. Âmbar / Amarelo (Moderado / Hiperpopular / Auge Histórico) */
+  .bg-amber-100,
+  .bg-yellow-100 {
+    background-color: rgba(245, 158, 11, 0.25) !important;
+    border-color: rgba(251, 191, 36, 0.5) !important;
+  }
+  .text-amber-900,
+  .text-amber-800,
+  .text-yellow-900 {
+    color: #fde68a !important; /* Amarelo/âmbar claro legível */
+  }
+
+  /* 5. Esmeralda / Verde (Comum / Sucesso) */
+  .bg-emerald-100,
+  .bg-green-100 {
+    background-color: rgba(16, 185, 129, 0.25) !important;
+    border-color: rgba(52, 211, 153, 0.5) !important;
+  }
+  .text-emerald-900,
+  .text-emerald-800 {
+    color: #a7f3d0 !important; /* Verde claro legível */
+  }
+
+  /* Divisões de lista */
+  .divide-slate-200 > :not([hidden]) ~ :not([hidden]),
+  .divide-slate-100 > :not([hidden]) ~ :not([hidden]) {
+    border-color: var(--theme-surface-border) !important;
+  }
+}
+
+/* ========================================================== */
+/* ADAPTAÇÃO PARA TEMAS SÉPIA / CAFÉ / ESPRESSO */
+/* ========================================================== */
+[data-theme="pergaminho-vintage"],
+[data-theme="espresso-cafe"] {
+  .text-slate-900,
+  .text-slate-800,
+  .text-slate-700,
+  .text-blue-950,
+  .text-emerald-950 {
+    color: var(--theme-text) !important;
+  }
+
+  .text-slate-600,
+  .text-slate-500 {
+    color: var(--theme-text-muted) !important;
+  }
+
+  .bg-white {
+    background-color: var(--theme-surface-card) !important;
+    color: var(--theme-text) !important;
+  }
+
+  .bg-slate-50,
+  .bg-slate-100,
+  .bg-blue-50,
+  .bg-emerald-50 {
+    background-color: var(--theme-surface-subtle) !important;
+    color: var(--theme-text) !important;
+  }
+
+  .border-slate-200,
+  .border-slate-300,
+  .border-blue-200 {
+    border-color: var(--theme-surface-border) !important;
+  }
+
+  /* Badges em temas vintage */
+  .bg-purple-100,
+  .bg-indigo-100,
+  .bg-blue-100,
+  .bg-amber-100,
+  .bg-yellow-100,
+  .bg-emerald-100 {
+    background-color: #ede2d3 !important;
+    border-color: #c9b9a6 !important;
+  }
+
+  .text-purple-900,
+  .text-indigo-900,
+  .text-blue-900,
+  .text-blue-800,
+  .text-blue-700,
+  .text-amber-900,
+  .text-yellow-900,
+  .text-emerald-900 {
+    color: #3b1d11 !important;
+  }
+
+  input[type="text"],
+  input {
+    background-color: var(--theme-surface-card) !important;
+    color: var(--theme-text) !important;
+    border-color: var(--theme-surface-border) !important;
+  }
+}
+
+/* ========================================================== */
+/* LEAFLET AJUSTES DE Z-INDEX E TOOLTIPS                     */
+/* ========================================================== */
+.leaflet-pane {
+  z-index: 10 !important;
+}
+
+.leaflet-top,
+.leaflet-bottom {
+  z-index: 20 !important;
+}
+
+.leaflet-custom-tooltip {
+  background: rgba(15, 23, 42, 0.95) !important;
+  color: #ffffff !important;
+  border: 1px solid #334155 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
+  padding: 6px 10px !important;
+}
+
+.leaflet-custom-tooltip::before {
+  border-top-color: rgba(15, 23, 42, 0.95) !important;
 }

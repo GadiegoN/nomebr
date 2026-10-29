@@ -299,12 +299,11 @@ export function BrazilLeafletMapInner({ data }: BrazilLeafletMapInnerProps) {
         >
           <MapViewHandler />
 
-          {/* Camada Base: CartoDB Voyager com estilo limpo e sem poluição */}
+          {/* Camada Base Neutra: Esri World Light Gray (100% gratuita, sem necessidade de API Key ou marca d'água) */}
           <TileLayer
-            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions">CARTO</a>'
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
-            subdomains="abcd"
-            maxZoom={19}
+            attribution='Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'
+            url="https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+            maxZoom={16}
           />
 
           {/* Camada Coroplética com Polígonos dos 27 Estados */}
